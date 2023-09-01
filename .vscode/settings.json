@@ -1,0 +1,36 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.prettier": true
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#35a389",
+    "activityBar.activeBackground": "#35a389",
+    "activityBar.foreground": "#ffffff",
+    "activityBar.inactiveForeground": "#fae4f6",
+    "activityBar.activeBorder": "#ffffff",
+    "activityBarBadge.background": "#fae4f6",
+    "activityBarBadge.foreground": "#35a389",
+    "titleBar.activeBackground": "#35a389",
+    "titleBar.inactiveBackground": "#35a389",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "statusBar.background": "#35a389",
+    "statusBarItem.hoverBackground": "#626262",
+    "statusBar.foreground": "#ffffff",
+  },
+  "cSpell.words": [
+    "antd",
+    "cssinjs",
+    "datasource",
+    "immer",
+    "logwork",
+    "logworks",
+    "nqhuy",
+    "sider",
+    "Siderbar",
+    "worklog",
+    "zustand"
+  ],
+}
