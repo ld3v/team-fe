@@ -7,7 +7,7 @@ export type TLoadingStates = {
   login: boolean;
   appStatus: boolean;
   listPrograms: boolean;
-  loadProject: boolean;
+  loadProgram: boolean;
 };
 export type TLoadingActions = {
   set: (field: keyof TLoadingStates, value: boolean) => void;
@@ -22,8 +22,7 @@ const loadingSlice: StateCreator<TLoadingActions & TLoadingStates> = (
     appStatus: true,
     login: false,
     listPrograms: false,
-    listProjects: false,
-    loadProject: false,
+    loadProgram: false,
     set: (field, isLoading) => {
       set((s) => {
         s[field] = isLoading;

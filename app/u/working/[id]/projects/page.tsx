@@ -3,20 +3,12 @@ import { useEffect } from 'react';
 import { getPrograms } from "@/actions/program";
 import ListPrograms from '@/components/program/list';
 
-const ProgramsPage = () => {
-  const fetchData = async () => {
-    await getPrograms();
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
+const ProjectsPage = () => {
 
   return (
     <div>
-      <ListPrograms />
     </div>
   )
 }
 
-export default ProgramsPage;
+export default ProjectsPage;

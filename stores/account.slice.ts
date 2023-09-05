@@ -11,6 +11,7 @@ export type TAccountStates = {
 export type TAccountActions = {
   setAccount: (account: TAccount, isCurrent?: boolean) => void;
   setMultiAccounts: (accounts: TAccount[]) => void;
+  setMultiAccountsByDic: (dic: Record<string, TAccount>) => void;
   reset: () => void;
 };
 
@@ -36,6 +37,11 @@ const accountSlice: StateCreator<TAccountActions & TAccountStates> = (
     setMultiAccounts: (accounts) => {
       set((s) => {
         accounts.forEach((acc) => (s.dic[acc.id] = acc));
+      });
+    },
+    setMultiAccountsByDic: (dic) => {
+      set((s) => {
+        s.dic = { ...s.dic, ...dic };
       });
     },
     reset: () => {
