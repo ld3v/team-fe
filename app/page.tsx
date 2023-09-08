@@ -1,6 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, Form, Input, Button, FormProps, Typography, notification } from "antd";
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  FormProps,
+  Typography,
+  notification,
+  Alert,
+} from "antd";
 import { UserOutlined, LockOutlined, ProfileOutlined } from "@ant-design/icons";
 import { login, register } from "@/actions";
 import { useForm } from "antd/es/form/Form";
@@ -11,56 +20,110 @@ const AuthForm: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
   if (isLogin) {
     return (
       <>
-        <Form.Item name="username" rules={[{ required: true, message: 'Please enter your username' }]}>
+        <Form.Item
+          name="username"
+          rules={[{ required: true, message: "Please enter your username" }]}
+        >
           <Input placeholder="Username" prefix={<UserOutlined />} />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true, message: 'Please enter your password' }]}>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: "Please enter your password" }]}
+        >
           <Input.Password placeholder="Password" prefix={<LockOutlined />} />
         </Form.Item>
         <div className="h-14" />
       </>
     );
   }
+  const isDisableRegister = process.env.NODE_ENV === "production" &&
+    !!localStorage.getItem("D3V_KEY") &&
+    localStorage.getItem("D3V_KEY") !== process.env.NEXT_PUBLIC_DEV_KEY;
 
   return (
     <>
-      <Form.Item name="displayName" rules={[{ required: true, message: 'Please enter your displayname' }]}>
-        <Input placeholder="Name" prefix={<ProfileOutlined />} />
+      {isDisableRegister && (
+        <Alert
+          message={
+            "This feature is disabled because this app is in DEV mode only!"
+          }
+          className="tw-mb-5"
+        />
+      )}
+      <Form.Item
+        name="displayName"
+        rules={[{ required: true, message: "Please enter your displayname" }]}
+      >
+        <Input
+          placeholder="Name"
+          prefix={<ProfileOutlined />}
+          disabled={isDisableRegister}
+        />
       </Form.Item>
-      <Form.Item name="username" rules={[{ required: true, message: 'Please enter your username' }]}>
-        <Input placeholder="Username" prefix={<UserOutlined />} />
+      <Form.Item
+        name="username"
+        rules={[{ required: true, message: "Please enter your username" }]}
+      >
+        <Input
+          placeholder="Username"
+          prefix={<UserOutlined />}
+          disabled={isDisableRegister}
+        />
       </Form.Item>
-      <Form.Item name="password" rules={[{ required: true, message: 'Please enter your password' }]}>
-        <Input.Password placeholder="Password" prefix={<LockOutlined />} />
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: "Please enter your password" }]}
+      >
+        <Input.Password
+          placeholder="Password"
+          prefix={<LockOutlined />}
+          disabled={isDisableRegister}
+        />
       </Form.Item>
     </>
   );
 };
 
-const LoginPage = () => {
+const AuthPage = () => {
   const router = useRouter();
   const [isLoginForm, setFormType] = useState<boolean>(true);
-  const { login: isLoggingIn, appStatus } = useLoadingState();
+  const { appStatus } = useLoadingState();
+  const [isAuthenticating, setAuthenticating] = useState<boolean>(false);
   const { current } = useAccountState();
   const [form] = useForm();
 
+  const handleDone = () => {
+    setAuthenticating(() => false);
+    router.push('/u');
+  }
+
   const handleLogin: FormProps["onFinish"] = async ({ username, password }) => {
-    await login({ username, password }, {
-      onSuccess: () => router.push('/u'),
-      onError: msg => notification.error({ message: msg })
-    });
+    setAuthenticating(() => true)
+    await login(
+      { username, password },
+      {
+        onSuccess: handleDone,
+        onError: (msg) => notification.error({ message: msg }),
+      }
+    );
   };
   const handleRegister: FormProps["onFinish"] = async ({
     username,
     password,
     displayName,
   }) => {
-    await register({ username, password, displayName });
+    await register(
+      { username, password, displayName },
+      {
+        onError: (message) => notification.error({ message }),
+        onSuccess: handleDone,
+      }
+    );
   };
 
   useEffect(() => {
     if (current && !appStatus) {
-      router.push('/u');
+      router.push("/u");
     }
   }, [appStatus]);
 
@@ -72,7 +135,12 @@ const LoginPage = () => {
         </Typography.Title>
         <Form form={form} onFinish={isLoginForm ? handleLogin : handleRegister}>
           <AuthForm isLogin={isLoginForm} />
-          <Button block type="primary" htmlType="submit" loading={isLoggingIn || appStatus}>
+          <Button
+            block
+            type="primary"
+            htmlType="submit"
+            loading={isAuthenticating || appStatus}
+          >
             Submit
           </Button>
           <div className="tw-text-center tw-py-2">
@@ -89,4 +157,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AuthPage;

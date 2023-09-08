@@ -1,6 +1,22 @@
+"use client"
+import { getTools } from "@/actions/tools";
+import { ToolsHeader, ToolsTable } from "@/components/tool";
+import { useEffect } from "react";
+
 const WorkingToolsPage = () => {
+  const fetchData = async () => {
+    await getTools();
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return (
-    <div></div>
+    <>
+      <ToolsHeader onLoadData={fetchData} />
+      <ToolsTable />
+    </>
   )
 }
 

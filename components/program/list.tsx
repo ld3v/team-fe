@@ -4,7 +4,7 @@ import { Card, Skeleton } from "antd";
 import moment from "moment";
 import Link from "next/link";
 
-const ListPrograms: React.FC = () => {
+export const ListPrograms: React.FC = () => {
   const { listPrograms } = useLoadingState();
   const { ids, dic } = useProgramState()
 
@@ -37,5 +37,3 @@ const ListPrograms: React.FC = () => {
     </>
   )
 }
-
-export default ListPrograms;

@@ -1,7 +1,7 @@
 "use client"
 import { useEffect } from 'react';
 import { getPrograms } from "@/actions/program";
-import ListPrograms from '@/components/program/list';
+import { ListPrograms, WorkingHeader } from '@/components/program';
 
 const ProgramsPage = () => {
   const fetchData = async () => {
@@ -14,6 +14,7 @@ const ProgramsPage = () => {
 
   return (
     <div>
+      <WorkingHeader />
       <ListPrograms />
     </div>
   )

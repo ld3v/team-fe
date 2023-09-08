@@ -3,7 +3,7 @@ import {
   ProLayout,
   MenuDataItem,
 } from "@ant-design/pro-components";
-import { Dropdown, Skeleton } from "antd";
+import { Dropdown, Skeleton, Spin } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import { TWrapperComponent } from "@/common/interfaces/component";
 import { usePathname, useRouter } from "next/navigation";
@@ -95,7 +95,7 @@ const AuthenticatedLayout: React.FC<TWrapperComponent> = ({ children }) => {
           children: items,
         }}
       >
-        {!appStatus ? children : <Skeleton active />}
+        {!appStatus ? children : <Spin tip="Initial application..."><div /></Spin>}
       </ProLayout>
     </div>
   );
